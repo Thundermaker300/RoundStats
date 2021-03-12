@@ -27,6 +27,7 @@ namespace RoundStats
 
             Player.Dying += _Handler.OnDying;
             Player.Escaping += _Handler.OnEscaping;
+            Player.InteractingDoor += _Handler.OnInteractingDoor;
             Player.ThrowingGrenade += _Handler.OnThrowingGrenade;
             Exiled.Events.Handlers.Scp914.UpgradingItems += _Handler.OnUpgradingItems;
 
@@ -40,6 +41,7 @@ namespace RoundStats
 
             Player.Dying -= _Handler.OnDying;
             Player.Escaping -= _Handler.OnEscaping;
+            Player.InteractingDoor -= _Handler.OnInteractingDoor;
             Player.ThrowingGrenade -= _Handler.OnThrowingGrenade;
             Exiled.Events.Handlers.Scp914.UpgradingItems -= _Handler.OnUpgradingItems;
 

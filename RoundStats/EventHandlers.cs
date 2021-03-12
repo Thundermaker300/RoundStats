@@ -22,6 +22,7 @@ namespace RoundStats
         public int Total914UpgradeItems = 0;
         public int Total914UpgradePlayers = 0;
         public int TotalEscapes = 0;
+        public int TotalDoorsInteracted = 0;
     }
     public class EventHandlers
     {
@@ -61,7 +62,8 @@ namespace RoundStats
                     return plugin.Config.Total914Upgrades.Replace("%NUMBER%", $"<b>{data.Total914UpgradeItems}</b>").Replace("%NUMBER2%", $"<b>{data.Total914UpgradePlayers}</b>");
                 case "TotalEscapes":
                     return plugin.Config.TotalGrenadesThrown.Replace("%NUMBER%", $"<b>{data.TotalEscapes}</b>");
-
+                case "TotalDoorsInteracted":
+                    return plugin.Config.TotalDoorsInteracted.Replace("%NUMBER%", $"<b>{data.TotalDoorsInteracted}</b>");
                 default:
                     return string.Empty;
             }
@@ -117,6 +119,13 @@ namespace RoundStats
                 data.FirstEscapeeRoleColor = ev.Player.RoleColor.ToHex();
             }
             data.TotalEscapes++;
+        }
+
+        internal void OnInteractingDoor(InteractingDoorEventArgs ev)
+        {
+            if (!ev.IsAllowed)
+                return;
+            data.TotalDoorsInteracted++;
         }
 
         internal void OnThrowingGrenade(ThrowingGrenadeEventArgs ev)
