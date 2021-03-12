@@ -7,8 +7,8 @@
     <ProjectGuid>{580B3BD9-8307-45D0-9845-4410C5448AD9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MVP</RootNamespace>
-    <AssemblyName>MVP</AssemblyName>
+    <RootNamespace>RoundStats</RootNamespace>
+    <AssemblyName>RoundStats</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -121,10 +121,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="DebugCommand.cs" />
     <Compile Include="EventHandlers.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TranslationConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

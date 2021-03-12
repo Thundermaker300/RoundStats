@@ -5,7 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Exiled.API.Features;
-using Exiled.API.Interfaces;
+using Exiled.Events.Handlers;
+
+using Player = Exiled.Events.Handlers.Player;
+using Server = Exiled.Events.Handlers.Server;
 
 namespace RoundStats
 {
@@ -18,17 +21,34 @@ namespace RoundStats
         {
             Singleton = this;
             _Handler = new EventHandlers(this);
+
+            Server.RoundStarted += _Handler.OnRoundStarted;
+            Server.RoundEnded += _Handler.OnRoundEnded;
+
+            Player.Dying += _Handler.OnDying;
+            Player.Escaping += _Handler.OnEscaping;
+            Player.ThrowingGrenade += _Handler.OnThrowingGrenade;
+            Exiled.Events.Handlers.Scp914.UpgradingItems += _Handler.OnUpgradingItems;
+
             base.OnEnabled();
         }
 
         public override void OnDisabled()
         {
+            Server.RoundStarted -= _Handler.OnRoundStarted;
+            Server.RoundEnded -= _Handler.OnRoundEnded;
+
+            Player.Dying -= _Handler.OnDying;
+            Player.Escaping -= _Handler.OnEscaping;
+            Player.ThrowingGrenade -= _Handler.OnThrowingGrenade;
+            Exiled.Events.Handlers.Scp914.UpgradingItems -= _Handler.OnUpgradingItems;
+
             _Handler = null;
             Singleton = null;
             base.OnDisabled();
         }
 
-        public override string Name => "MVP";
+        public override string Name => "RoundStats";
         public override string Author => "Thunder";
         public override Version Version => new Version(0, 0, 0);
         public override Version RequiredExiledVersion => new Version(2, 8, 0);
