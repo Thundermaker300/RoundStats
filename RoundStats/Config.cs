@@ -11,10 +11,8 @@ namespace RoundStats
     public class Config : IConfig
     {
         public bool IsEnabled { get; set; } = true;
-        [Description("If set to true, random stats from the enabled stats list will be chosen. If set to false, all enabled stats will be displayed.")]
-        public bool PickRandom { get; set; } = false;
-        [Description("If pick_random is set to true, this determines how many stats can be shown at once.")]
-        public int RandomMax { get; set; } = 3;
+        [Description("If set to true, all of the enabled stats will be shown 3 at a time, and will cycle through them.")]
+        public bool CycleStats { get; set; } = false;
         [Description("List of stats that can be shown at the end of the round.")]
         public Dictionary<string, bool> Stats { get; set; } = new Dictionary<string, bool>()
         {
@@ -35,7 +33,7 @@ namespace RoundStats
         public string TotalGrenadesThrown { get; set; } = "%NUMBER% grenades were thrown.";
         public string Total914Upgrades { get; set; } = "%NUMBER% items and %NUMBER2% players were refined in SCP-914.";
         public string TotalEscapes { get; set; } = "%NUMBER% players escaped.";
-        public string TotalDoorsInteracted { get; set; } = "%NUMBER% doors were interacted with."
+        public string TotalDoorsInteracted { get; set; } = "%NUMBER% doors were interacted with.";
 
     }
 }

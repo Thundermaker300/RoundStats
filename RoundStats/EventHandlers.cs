@@ -7,6 +7,7 @@ using Exiled.API.Features;
 using Exiled.Events.EventArgs;
 using GameCore;
 using UnityEngine;
+using MEC;
 
 namespace RoundStats
 {
@@ -23,6 +24,7 @@ namespace RoundStats
         public int Total914UpgradePlayers = 0;
         public int TotalEscapes = 0;
         public int TotalDoorsInteracted = 0;
+        public string[] statsDisplayed = new string[] { };
     }
     public class EventHandlers
     {
@@ -61,33 +63,78 @@ namespace RoundStats
                 case "Total914Upgrades":
                     return plugin.Config.Total914Upgrades.Replace("%NUMBER%", $"<b>{data.Total914UpgradeItems}</b>").Replace("%NUMBER2%", $"<b>{data.Total914UpgradePlayers}</b>");
                 case "TotalEscapes":
-                    return plugin.Config.TotalGrenadesThrown.Replace("%NUMBER%", $"<b>{data.TotalEscapes}</b>");
+                    return plugin.Config.TotalEscapes.Replace("%NUMBER%", $"<b>{data.TotalEscapes}</b>");
                 case "TotalDoorsInteracted":
+                    Exiled.API.Features.Log.Debug("TOTAL DOORS");
                     return plugin.Config.TotalDoorsInteracted.Replace("%NUMBER%", $"<b>{data.TotalDoorsInteracted}</b>");
                 default:
                     return string.Empty;
             }
         }
 
-        internal void OnRoundEnded(RoundEndedEventArgs ev)
+        internal void CycleStats()
         {
-            StringBuilder builder = new StringBuilder();
-            if (plugin.Config.PickRandom)
+            var enabledStats = plugin.Config.Stats.Where(kvp => kvp.Value == true).Select((KeyValuePair<string, bool> data) => data.Key);
+            int count = enabledStats.Count();
+            ushort timeForEach = (ushort)(Mathf.Clamp(ConfigFile.ServerConfig.GetInt("auto_round_restart_time", 10), 5, 1000) / count*3);
+            var groups = new List<List<string>> { };
+
+            int iterator = 0;
+            List<string> currentList = new List<string> { };
+            foreach (string stat in enabledStats)
             {
-                
+                if (data.statsDisplayed.Contains(stat))
+                    continue;
+                data.statsDisplayed.Append(stat);
+                currentList.Add(stat);
+                iterator++;
+                if (iterator > 2)
+                {
+                    groups.Add(currentList);
+                    currentList = new List<string> { };
+                    iterator = 0;
+                }
+            }
+
+            if (currentList.Count > 0)
+                groups.Add(currentList);
+
+            foreach (List<string> group in groups)
+            {
+                StringBuilder builder = new StringBuilder();
+                foreach (string stat in group)
+                {
+                    builder.AppendLine(GetString(stat));
+                }
+                Map.Broadcast(new Exiled.API.Features.Broadcast(builder.ToString(), timeForEach));
+            }
+        }
+
+        internal void onShow(EnteringFemurBreakerEventArgs ev)
+        //internal void OnRoundEnded(RoundEndedEventArgs ev)
+        {
+            if (!plugin.Config.Stats.Any(kvp => kvp.Value == true))
+            {
+                return;
+            }
+            if (plugin.Config.CycleStats)
+            {
+                CycleStats();
             }
             else
             {
+                StringBuilder builder = new StringBuilder();
+
                 foreach (KeyValuePair<string, bool> stat in plugin.Config.Stats.Where(kvp => kvp.Value == true))
                 {
                     builder.AppendLine(GetString(stat.Key));
                 }
+
+                ushort displayTime = (ushort)Mathf.Clamp(ConfigFile.ServerConfig.GetInt("auto_round_restart_time", 10), 5, 1000);
+
+                Map.ClearBroadcasts();
+                Map.Broadcast(new Exiled.API.Features.Broadcast(builder.ToString(), displayTime));
             }
-
-            ushort displayTime = (ushort)Mathf.Clamp(ConfigFile.ServerConfig.GetInt("auto_round_restart_time", 10), 5, 1000);
-
-            Map.ClearBroadcasts();
-            Map.Broadcast(new Exiled.API.Features.Broadcast(builder.ToString(), displayTime));
         }
 
         // Player
