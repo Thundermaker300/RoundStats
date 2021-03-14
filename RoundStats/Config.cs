@@ -33,7 +33,7 @@ namespace RoundStats
         public string TotalGrenadesThrown { get; set; } = "%NUMBER% grenades were thrown.";
         public string Total914Upgrades { get; set; } = "%NUMBER% items and %NUMBER2% players were refined in SCP-914.";
         public string TotalEscapes { get; set; } = "%NUMBER% players escaped.";
-        public string TotalDoorsInteracted { get; set; } = "%NUMBER% doors were interacted with.";
+        public string TotalDoorsInteracted { get; set; } = "Doors were interacted with %NUMBER% times.";
 
     }
 }

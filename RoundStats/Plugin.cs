@@ -23,8 +23,7 @@ namespace RoundStats
             _Handler = new EventHandlers(this);
 
             Server.RoundStarted += _Handler.OnRoundStarted;
-            //Server.RoundEnded += _Handler.OnRoundEnded;
-            Player.EnteringFemurBreaker += _Handler.onShow;
+            Server.RoundEnded += _Handler.OnRoundEnded;
 
             Player.Dying += _Handler.OnDying;
             Player.Escaping += _Handler.OnEscaping;
@@ -38,8 +37,7 @@ namespace RoundStats
         public override void OnDisabled()
         {
             Server.RoundStarted -= _Handler.OnRoundStarted;
-            //Server.RoundEnded -= _Handler.OnRoundEnded;
-            Player.EnteringFemurBreaker -= _Handler.onShow;
+            Server.RoundEnded -= _Handler.OnRoundEnded;
 
             Player.Dying -= _Handler.OnDying;
             Player.Escaping -= _Handler.OnEscaping;

@@ -65,7 +65,6 @@ namespace RoundStats
                 case "TotalEscapes":
                     return plugin.Config.TotalEscapes.Replace("%NUMBER%", $"<b>{data.TotalEscapes}</b>");
                 case "TotalDoorsInteracted":
-                    Exiled.API.Features.Log.Debug("TOTAL DOORS");
                     return plugin.Config.TotalDoorsInteracted.Replace("%NUMBER%", $"<b>{data.TotalDoorsInteracted}</b>");
                 default:
                     return string.Empty;
@@ -110,8 +109,7 @@ namespace RoundStats
             }
         }
 
-        internal void onShow(EnteringFemurBreakerEventArgs ev)
-        //internal void OnRoundEnded(RoundEndedEventArgs ev)
+        internal void OnRoundEnded(RoundEndedEventArgs ev)
         {
             if (!plugin.Config.Stats.Any(kvp => kvp.Value == true))
             {
@@ -170,7 +168,7 @@ namespace RoundStats
 
         internal void OnInteractingDoor(InteractingDoorEventArgs ev)
         {
-            if (!ev.IsAllowed)
+            if (!ev.IsAllowed || ev.Player.IsHost)
                 return;
             data.TotalDoorsInteracted++;
         }
