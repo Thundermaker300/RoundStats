@@ -54,7 +54,7 @@ namespace RoundStats
 
         public override string Name => "RoundStats";
         public override string Author => "Thunder";
-        public override Version Version => new Version(0, 0, 0);
+        public override Version Version => new Version(0, 1, 0);
         public override Version RequiredExiledVersion => new Version(2, 8, 0);
     }
 }
