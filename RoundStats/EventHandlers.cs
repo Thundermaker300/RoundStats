@@ -20,6 +20,7 @@ namespace RoundStats
         public string FirstKillerRoleColor;
         public int TotalDeaths = 0;
         public int TotalGrenades = 0;
+        public int TotalMedical = 0;
         public int Total914UpgradeItems = 0;
         public int Total914UpgradePlayers = 0;
         public int TotalEscapes = 0;
@@ -60,6 +61,8 @@ namespace RoundStats
                     return plugin.Config.TotalDeaths.Replace("%NUMBER%", $"<b>{data.TotalDeaths}</b>");
                 case "TotalGrenadesThrown":
                     return plugin.Config.TotalGrenadesThrown.Replace("%NUMBER%", $"<b>{data.TotalGrenades}</b>");
+                case "TotalMedicalItems":
+                    return plugin.Config.TotalMedicalItems.Replace("%NUMBER%", $"<b>{data.TotalMedical}</b>");
                 case "Total914Upgrades":
                     return plugin.Config.Total914Upgrades.Replace("%NUMBER%", $"<b>{data.Total914UpgradeItems}</b>").Replace("%NUMBER2%", $"<b>{data.Total914UpgradePlayers}</b>");
                 case "TotalEscapes":
@@ -188,6 +191,13 @@ namespace RoundStats
                 return;
             data.Total914UpgradeItems += ev.Items.Count;
             data.Total914UpgradePlayers += ev.Players.Count;
+        }
+
+        internal void OnUsedMedicalItem(UsedMedicalItemEventArgs ev)
+        {
+            if (!Round.IsStarted)
+                return;
+            data.TotalMedical++;
         }
     }
 }

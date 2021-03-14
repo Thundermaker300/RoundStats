@@ -30,6 +30,7 @@ namespace RoundStats
             Player.InteractingDoor += _Handler.OnInteractingDoor;
             Player.ThrowingGrenade += _Handler.OnThrowingGrenade;
             Exiled.Events.Handlers.Scp914.UpgradingItems += _Handler.OnUpgradingItems;
+            Player.MedicalItemUsed += _Handler.OnUsedMedicalItem;
 
             base.OnEnabled();
         }
@@ -44,6 +45,7 @@ namespace RoundStats
             Player.InteractingDoor -= _Handler.OnInteractingDoor;
             Player.ThrowingGrenade -= _Handler.OnThrowingGrenade;
             Exiled.Events.Handlers.Scp914.UpgradingItems -= _Handler.OnUpgradingItems;
+            Player.MedicalItemUsed -= _Handler.OnUsedMedicalItem;
 
             _Handler = null;
             Singleton = null;
