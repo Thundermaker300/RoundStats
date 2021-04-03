@@ -146,7 +146,7 @@ namespace RoundStats
                 return;
             if (!ev.IsAllowed)
                 return;
-            if (ev.Killer != null && data.FirstKiller == null)
+            if (ev.Killer != null && ev.Killer.Role != RoleType.None && ev.Killer.Role != RoleType.Spectator && data.FirstKiller == null)
             {
                 data.FirstKiller = ev.Killer;
                 data.FirstKillerRole = ev.Killer.Role;
