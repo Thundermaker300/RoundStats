@@ -22,7 +22,7 @@ namespace RoundStats
             Singleton = this;
             _Handler = new EventHandlers(this);
 
-            Server.RoundStarted += _Handler.OnRoundStarted;
+            Server.WaitingForPlayers += _Handler.OnWaitingForPlayers;
             Server.RoundEnded += _Handler.OnRoundEnded;
 
             Player.Dying += _Handler.OnDying;
@@ -37,7 +37,7 @@ namespace RoundStats
 
         public override void OnDisabled()
         {
-            Server.RoundStarted -= _Handler.OnRoundStarted;
+            Server.RoundStarted -= _Handler.OnWaitingForPlayers;
             Server.RoundEnded -= _Handler.OnRoundEnded;
 
             Player.Dying -= _Handler.OnDying;

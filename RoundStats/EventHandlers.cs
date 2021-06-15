@@ -38,7 +38,7 @@ namespace RoundStats
 
         // Server
 
-        internal void OnRoundStarted()
+        internal void OnWaitingForPlayers()
         {
             data = new RoundData();
         }
